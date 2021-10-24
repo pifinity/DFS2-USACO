@@ -1,0 +1,67 @@
+import java.io.*;
+import java.util.*;
+
+class P1219 {
+    static int N;
+    static boolean[] column;
+    static boolean[] diag1;
+    static boolean[] diag2;
+    static int[] ret;
+    static int now;
+    static int count;
+    static int print;
+
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+
+        N = sc.nextInt();
+        column = new boolean[N];
+        diag1 = new boolean[2*N];
+        diag2 = new boolean[2*N];
+        ret = new int[N];
+
+        dfs(0);
+        System.out.println(count);
+
+    }
+
+    static void dfs(int r){
+
+
+        if (r ==N){
+            if (now<3) {
+                for (int i = 0; i < N; i++) {
+                    System.out.print(ret[i]+1);
+                }
+                System.out.println();
+                now++;
+            }
+            count++;
+            return;
+
+        }
+
+        for (int i=0; i<N; i++){
+            if (column[i]) {
+                continue;
+            }else if (diag1[r-i+N]|| diag2[r+i]){
+                continue;
+            }else{
+                column[i] = true;
+                diag1[r-i+N]= true;
+                diag2[r+i] = true;
+                ret[print++] = i;
+                dfs(r+1);
+                column[i] = false;
+                diag1[r-i+N]= false;
+                diag2[r+i] = false;
+                print--;
+            }
+
+        }
+
+
+
+    }
+}
